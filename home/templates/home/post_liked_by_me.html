@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}" />
+{% block body %}
+<h1>Post Liked by Me</h1>
+{% for like in likes %}
+    <div style="background-color:#D3D3D3,">
+    <br>
+    <div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;">
+    {% if like.post.picture %}
+        <img src= "{{ like.post.picture.url }}"  alt="no image" style="width: 100%; height: auto;">
+    {% endif %}
+
+        {{like.post.post }}
+    <br>
+    <br>
+    <a id="like" href="{% url 'home:likes' pk=like.post.pk %}" ><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  Like <span class="badge badge-light">{{ like.post.cnt }}</span>
+</button> </a>
+    <a href="{% url 'home:comments' pk=like.post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  View Comments <span class="badge badge-light">{{ like.post.total_comment }}</span>
+</button></a>
+    <a href="{% url 'home:write_comments' pk=like.post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  Write Comment </button></a>
+    <br>
+        <i>Posted by {{like.post.user.get_full_name }} on {{ like.post.created }}</i>
+    </div>
+        </div>
+     <br>
+    {% endfor %}
+{% endblock %}

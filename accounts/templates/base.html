@@ -1,0 +1,84 @@
+{% load active_link_tags %}
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/style.css' %}" />
+    <script src="{% static 'accounts/active.js' %}"></script>
+    <script src="{% static 'accounts/setup.js' %}"></script>
+    <script src="{% static 'accounts/likebutton.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+{% block head %}
+
+    <title></title>
+{% endblock %}
+</head>
+<body style="background-color:#F1FCCF;">
+<br>
+<div class="container">
+
+      <!-- Static navbar -->
+      <nav class="navbar navbar-inverse " >
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+              <a class="navbar-brand"><b>Training</b></a>
+          </div>
+          <div class="collapse navbar-collapse" id="navbar" >
+              {% if user.is_authenticated %}
+            <ul class="nav navbar-nav ">
+                <li ><a class="{% active_link 'home:home' %}" href="{% url 'home:home' %}" ><span class="glyphicon glyphicon-home "></span> Home</a></li>
+                <li ><a class="{% active_link 'accounts:view_profile' %}" href="{% url 'accounts:view_profile' %}" >Profile</a></li>
+                <li ><a class="{% active_link 'accounts:edit_profile' %}" href="{% url 'accounts:edit_profile' %}" >Edit Profile</a></li>
+                <li ><a class="{% active_link 'accounts:change_password' %}" href="{% url 'accounts:change_password' %}">Change Password</a></li>
+                <li ><a class="{% active_link 'friendship:friendship_view_friends ' username=user.username %}" href="{% url 'friendship:friendship_view_friends' username=user.username %}" >My Friends</a></li>
+                <li ><a class="{% active_link 'friendship:friendship_view_users' %}" href="{% url 'friendship:friendship_view_users' %}" >Add Friends</a></li>
+                <li ><a class="{% active_link 'friendship:friendship_request_list' %}" href="{% url 'friendship:friendship_request_list' %}">Friend Request</a></li>
+
+            </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                  <li><a class="navbar-brand" style="font-size: 17px;"><span class="glyphicon glyphicon-user"> {{user}}</span></a></li>
+                  <li  ><a class="{% active_link 'accounts:logout' %}" href="{% url 'accounts:logout' %}" ><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+
+            </ul>
+
+              {% else %}
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li  ><a class="{% active_link 'accounts:reset_password' %}" href="{% url 'accounts:reset_password' %}"><span class="glyphicon glyphicon-wrench"></span> Forget Password</a></li>
+              <li ><a class="{% active_link 'accounts:register' %}" href="{% url 'accounts:register' %}" ><span class="glyphicon glyphicon-plus"></span> Register</a></li>
+                <li ><a class="{% active_link 'accounts:login' %}" href="{% url 'accounts:login' %}" ><span class="glyphicon glyphicon-off"></span> Login</a></li>
+
+            </ul>
+              {%endif %}
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+
+      <!-- Main component for a primary marketing message or call to action -->
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        <br><br><br>
+    {% block body %}
+    <h1>Base</h1>
+    {% endblock %}
+    </div>
+
+    </div> <!-- /container -->
+
+
+
+</body>
+</html>

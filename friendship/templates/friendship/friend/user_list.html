@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>My Friends</h1>
+
+<div class="col-md-12">
+{% for f in myfriends %}
+<div class="well well-sm " style="border: 2px solid #d1dfff ;background-color: #ECF8F7;border-radius: 20px">
+
+    {% if user != f.from_user %}
+    {% if f.from_user.userprofile.image %}
+        <img src= "{{ f.from_user.userprofile.image.url }}"  alt="no image" style="width: 150px; height: 150px;">
+    {% else %}
+        <img src= "profile_image/noprofile.png"  alt="no image" style="width: 150px; height: 150px;">
+    {% endif %}
+<div class="col-md-9" style="font-size: 22px;font-family: 'Times New Roman', Times, serif;">
+    <b>{{ f.from_user }} ({{f.from_user.first_name}} {{f.from_user.last_name}})</b>
+    <br>
+    {% if f.from_user.userprofile.city != "" %}
+   <i>{{f.from_user.userprofile.city}}</i>
+       <br>
+   {% endif %}
+    <a href="{% url 'friendship:friendship_cancel' friend=f.from_user %}"> Unfriend</a>
+</div>
+{% else %}
+    {% if f.to_user.userprofile.image %}
+        <img src= "{{ f.to_user.userprofile.image.url }}"  alt="no image" style="width: 150px; height: 150px;">
+    {% else %}
+        <img src= "profile_image/noprofile.png"  alt="no image" style="width: 150px; height: 150px;">
+    {% endif %}
+<div class="col-md-9" style="font-size: 22px;font-family: 'Times New Roman', Times, serif;">
+    <b>{{ f.to_user }}({{f.from_user.first_name}} {{f.from_user.last_name}})</b>
+    <br>
+    {% if f.to_user.userprofile.city != "" %}
+   <i>{{f.to_user.userprofile.city}}</i>
+       <br>
+   {% endif %}
+    <a href="{% url 'friendship:friendship_cancel' friend=f.to_user %}"> Unfriend</a>
+</div>
+{% endif %}
+    <br>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

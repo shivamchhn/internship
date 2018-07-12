@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}" />
+<script>
+
+     function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Setup AJAX
+$(function () {
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+});
+</script>
+{% block body %}
+<h1>My Post</h1>
+{% for post in posts %}
+    <div style="background-color:#D3D3D3,">
+    <br>
+    <br>
+    <div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;border-radius: 20px">
+    {% if post.picture %}
+        <img src= "{{ post.picture.url }}"  alt="no image" style="width: 100%; height: auto;">
+    {% endif %}
+
+        {{post.post }}
+    <br>
+    <br>
+     <a data-id="{{ post.id }}" data-type="post" data-action="like" title="Like" style="text-decoration: none;" id="likecolor">
+        <button type="button" class="btn btn-outline mb1 blue btn-xs">
+         <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span data-count="like">{{ post.votes.likes.count }} </span>
+        </button>
+    </a>
+    <a data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Dislike" style="text-decoration: none;" id="dislikecolor">
+        <button type="button" class="btn btn-outline mb1 blue btn-xs">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <span data-count="dislike">{{ post.votes.dislikes.count }} </span>
+        </button>
+    </a>
+    <a href="{% url 'home:comments' pk=post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  View Comments <span class="badge badge-light">{{ post.total_comment }}</span>
+</button></a>
+    <a href="{% url 'home:write_comments' pk=post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  Write Comment
+</button></a>
+    <a href="{% url 'home:delete_post' pk=post.pk %}" onclick="return confirm('Are you sure?')"><button type="button"
+        class="btn btn-outline mb1 blue btn-xs">Delete</button></a><br>
+        <i>Posted by {{post.user.get_full_name }} on {{ post.created }}</i>
+    </div>
+        </div>
+     <br>
+    {% endfor %}
+{% endblock %}

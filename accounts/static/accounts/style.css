@@ -1,0 +1,26 @@
+
+img{
+    width: 100%;
+    height: auto;
+}
+/*
+.bluelike {
+    color: blue;
+    font-size:20px;
+}
+
+.blacklike {
+    color: black;
+    font-size:20px;
+} */
+
+.active{
+    color: white;
+    background: green;
+}
+
+.navbar-change a:hover{
+  background-color:teal;
+  background-image: none;
+  background-repeat: no-repeat;
+ }

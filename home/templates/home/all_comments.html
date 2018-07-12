@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+<script>
+
+     function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Setup AJAX
+$(function () {
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+});
+</script>
+{% block body %}
+<h2> POST:</h2>
+<div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;border-radius: 20px" >
+
+ {% if post.picture %}
+        <img src= "{{ post.picture.url }}"  alt="no image" style="width: 100%; height: auto;">
+    {% endif %}
+ {{ post.post }}
+ <br><br>
+ <i>Posted by {{post.user.get_full_name }} on {{ post.created }}</i>
+</div>
+ <br>
+<p>Total comment on this post : {{count}}</p>
+<br>
+ {% for c in cmnt %}
+<div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;border-radius: 20px">
+{{ c.comment }}
+ <br>
+ <a data-id="{{ c.id }}" data-type="comment" data-action="like" title="Like" style="text-decoration: none;" id="likecolor">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span data-count="like">{{ c.votes.likes.count }} </span>
+    </a>
+    <a data-id="{{ c.id }}" data-type="comment" data-action="dislike" title="Dislike" style="text-decoration: none;" id="dislikecolor">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <span data-count="dislike">{{ c.votes.dislikes.count }} </span>
+    </a>
+ <br>
+<p>comment by {{ c.user.username }} on {{ c.created }}</p>
+</div>
+ {% endfor %}
+{% endblock %}

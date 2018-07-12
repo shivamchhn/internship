@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <h1><b> Welcome {{user}} </b></h1>
+<h2 style="color:blue"><b> Enter your Details </b></h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="inputEmail">FIRST NAME</label>
+        <input type="text" class="form-control" id="inputEmail" >
+    </div>
+    <div class="form-group">
+        <label for="lastname">LAST NAME</label>
+        <input type="text" class="form-control" id="lastname" >
+    </div>
+    <div class="form-group">
+        <label for="dob">DATE OF BIRTH</label>
+        <input type="DATE" class="form-control" id="dob" >
+    </div>
+
+    <div class="form-group">
+        <label for="address1">Address Line 1</label>
+        <input type="text" class="form-control" id="address1" >
+    </div>
+    <div class="form-group">
+        <label for="address2">Address Line 2</label>
+        <input type="text" class="form-control" id="address2" >
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+</div>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container">
+
+    <div class="col-md-8">
+        <br>
+        <h3>POST</h3>
+        <div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;">
+            {% if post.picture %}
+        <img src= "{{ post.picture.url }}"  alt="no image" style="width: 100%; height: auto;">
+    {% endif %}
+            {{ post.post }}
+        </div>
+        <h1>Write your Comment</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.comment }}
+        <br>
+        <button class="btn btn-success btn-sm" type="submit">Submit</button>
+    </form>
+        <br>
+        <h3>My Previous Comments to this Post:</h3>
+    {% for c in cmnt %}
+
+     <div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;">
+        {{c.comment}}
+        <br>
+         <a data-id="{{ post.id }}" data-type="post" data-action="like" title="Like" style="text-decoration: none;" id="likecolor">
+        <button type="button" class="btn btn-outline mb1 blue btn-xs">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <span data-count="like">{{ post.votes.likes.count }} </span>
+        </button>
+    </a>
+    <a data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Dislike" style="text-decoration: none;" id="dislikecolor">
+        <button type="button" class="btn btn-outline mb1 blue btn-xs">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <span data-count="dislike">{{ post.votes.dislikes.count }} </span>
+        </button>
+    </a>
+         <a href="{% url 'home:delete_comment' pk=c.pk %}"><button type="button" class="btn btn-xs btn-danger" value="Delete">Delete</button> </a>
+            <br>
+
+         <p><i> comment by {{c.user.get_full_name }} on {{ c.created }}</i>
+
+     </div>
+     </div>
+    {% endfor %}
+        </div>
+
+
+{% endblock %}

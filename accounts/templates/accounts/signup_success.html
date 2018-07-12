@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+<h1>Welcome</h1>
+<p>
+    You have Registered Successfully
+</p>
+<h2>Now you can Login</h2>
+   <form action="/account/login" method="get">
+       <input type="submit" value="Login" name="Login">
+   </form>
+{% endblock %}
+</div>

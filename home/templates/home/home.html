@@ -1,0 +1,81 @@
+
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}" />
+ <script>
+
+     function getCookie(c_name)
+{
+    if (document.cookie.length > 0)
+    {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1)
+        {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+    return "";
+ }
+
+// Setup AJAX
+$(function () {
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+});
+ </script>
+{% block body %}
+    <h1>Home</h1>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.post }}
+        <br>
+        {{ form.picture }}
+        <br>
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+    <br>
+<a href="{% url 'home:post_by_me'%}"><button type="button" class="btn btn-success" value="my_post">Show my Post Only</button> </a>
+
+   <br>
+
+    {% for post in posts %}
+
+    <br>
+    <div class="well well-sm" style="border: 2px solid #B1D1F6;background-color: #ECF8F7;border-radius: 20px">
+    {% if post.picture %}
+        <img src= "{{ post.picture.url }}"  alt="no image" style="width: 100%; height: auto;">
+    {% endif %}
+
+        {{post.post }}
+        <br>
+        <br>
+
+    <a data-id="{{ post.id }}" data-type="post" data-action="like" title="Like" style="text-decoration: none;" >
+
+        <span class="glyphicon glyphicon-thumbs-up" id="span1"></span>
+        <span data-count="like" style="color:black;font-size:16px;">{{ post.votes.likes.count }} </span>
+
+    </a>
+    <a data-id="{{ post.id }}" data-type="post" data-action="dislike" title="Dislike" style="text-decoration: none;">
+
+        <span class="glyphicon glyphicon-thumbs-down" id="span2"></span>
+        <span data-count="dislike" style="color:black;font-size:16px;">{{ post.votes.dislikes.count }} </span>
+
+    </a>
+
+    <a href="{% url 'home:comments' pk=post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  View Comments <span class="badge badge-light">{{ post.total_comment }}</span>
+</button></a>
+    <a href="{% url 'home:write_comments' pk=post.pk %}"><button type="button" class="btn btn-outline mb1 blue btn-xs">
+  Write Comment </button></a><br>
+        <i>Posted by {{post.user.get_full_name }} on {{ post.created }}</i>
+            </div>
+
+    <br>
+    <br>
+    {% endfor %}
+{% endblock %}
